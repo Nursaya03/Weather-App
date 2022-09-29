@@ -19,26 +19,27 @@ function App() {
 
   const handleFetch = () => {
     fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=10d488aa572e48c8b7040359221409&q=${place}&days=1&aqi=no&alerts=no`
+      `https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=ab5a6e0448e86f7a5ca29ee001056921`
     )
       .then((response) => response.json())
       .then((data) =>
         setPlaceInfo({
-          name: data.location.name,
-          country: data.location.country,
-          celsius: {
-            current: data.current.temp_c,
-            high: data.forecast.forecastday[0].day.maxtemp_c,
-            low: data.forecast.forecastday[0].day.mintemp_c,
+          name: data.name,
+          country: data.sys.country,
+          temp: {
+            current: data.main.temp,
+            high: data.main.temp_max,
+            low: data.main.temp_min,
           },
-          condition: data.current.condition.text,
+          condition: data.weather[0].description,
         })
       );
-      setPlace("")
+    setPlace("")
+
   }
 
   const changePlace = (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       handleFetch()
     }
   }
@@ -46,15 +47,17 @@ function App() {
   return (
     <div className="App"
       style={
-        placeInfo.condition?.toLowerCase() === 'clear' ||
+        placeInfo.condition?.toLowerCase().includes('clear') ||
           placeInfo.condition?.toLowerCase() === 'sunny'
           ? { backgroundImage: `url(${Clear})` }
-          : placeInfo.condition?.includes('cloudy')
-            ? { backgroundImage: `url(${Cloudy})` }
-            : placeInfo.condition?.toLowerCase().includes('rainy')
+          : placeInfo.condition?.includes('snow')
+            ? { backgroundImage: `url(${Snow})` }
+            : placeInfo.condition?.toLowerCase().includes('rainy') ||
+              placeInfo.condition?.toLowerCase().includes('drizzle')
               ? { backgroundImage: `url(${Rainy})` }
-              : placeInfo.condition?.toLowerCase().includes('snow')
-                ? { backgroundImage: `url(${Snow})` }
+              : placeInfo.condition?.toLowerCase().includes('few clouds') ||
+                placeInfo.condition?.toLowerCase().includes('scattered clouds')
+                ? { backgroundImage: `url(${Cloudy})` }
                 : { backgroundImage: `url(${Overcast})` }
       }
     >
@@ -66,15 +69,15 @@ function App() {
           onKeyDown={(e) => changePlace(e)}
           onChange={(e) => setPlace(e.target.value)}
         />
-        <SearchIcon onClick={handleFetch} fontSize="large" className="search-button"/>
+        <SearchIcon onClick={handleFetch} fontSize="large" className="search-button" />
       </div>
       <div className="weather-wrapper">
         <div className="top-part">
-          <h1>{placeInfo.celsius?.current}° C</h1>
+          <h1>{Math.floor(placeInfo.temp?.current - 273)}° C</h1>
           <div className="condition-high-low">
             <h1>{placeInfo.condition}</h1>
-            <h1>{placeInfo.celsius?.high}° C</h1>
-            <h1>{placeInfo.celsius?.low}° C</h1>
+            <h1>{Math.floor(placeInfo.temp?.high - 273)}° C</h1>
+            <h1>{Math.floor(placeInfo.temp?.low - 273)}° C</h1>
           </div>
         </div>
         <h2>{placeInfo.name}, {placeInfo.country}</h2>
