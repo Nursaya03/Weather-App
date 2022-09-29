@@ -1,38 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap');
+
 .App {
-  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+  font-family: 'Merriweather Sans', sans-serif;
+  color: #fff;
+  transition-duration: 1s;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.search-input {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  position: absolute;
+  right: 200px;
+  top: 550px;
+  border-top: 1px solid rgba(255, 255, 255, .5);
+  border-left: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .4);
+  backdrop-filter: blur(1px);
+  overflow: hidden;
+  padding: 3px;
 }
 
-.App-link {
-  color: #61dafb;
+.search-input > input {
+  width: 400px;
+  font-size: 40px;
+  padding: 5px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: transparent;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search-input > input:focus{
+  color: #fff;
+} 
+
+.search-input > input::placeholder {
+  color: #fff;
+}
+
+.search-button {
+  cursor: pointer;
+  transform: scale(1.2);
+  margin-right: 10px;
+}
+
+.search-button:hover {
+  transform: scale(1.4);
+}
+
+.weather-wrapper > h2 {
+  position: absolute;
+  font-size: 50px;
+  left: 70px;
+  top: 630px;
+}
+
+.top-part {
+  position: absolute;
+  left: 70px;
+  top: 450px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-part > h1 {
+  font-size: 160px;
+}
+
+.condition-high-low {
+  margin-left: 25px;
+}
+
+.condition-high-low > h1:nth-of-type(2),
+h1:nth-of-type(3) {
+  font-size: 36px;
 }
